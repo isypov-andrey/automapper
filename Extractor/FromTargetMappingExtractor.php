@@ -6,8 +6,6 @@ use Jane\AutoMapper\Exception\InvalidMappingException;
 use Jane\AutoMapper\MapperMetadataInterface;
 use Jane\AutoMapper\Transformer\TransformerFactoryInterface;
 use Symfony\Component\PropertyInfo\PropertyInfoExtractorInterface;
-use Symfony\Component\PropertyInfo\PropertyReadInfoExtractorInterface;
-use Symfony\Component\PropertyInfo\PropertyWriteInfoExtractorInterface;
 use Symfony\Component\PropertyInfo\Type;
 use Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactoryInterface;
 use Symfony\Component\Serializer\NameConverter\AdvancedNameConverterInterface;
@@ -33,7 +31,7 @@ final class FromTargetMappingExtractor extends MappingExtractor
     }
 
     /**
-     * {@inheritdoc}
+     *     * {@inheritdoc}
      */
     public function getPropertiesMapping(MapperMetadataInterface $mapperMetadata): array
     {

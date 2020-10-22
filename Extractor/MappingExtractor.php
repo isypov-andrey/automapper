@@ -4,10 +4,6 @@ namespace Jane\AutoMapper\Extractor;
 
 use Jane\AutoMapper\Transformer\TransformerFactoryInterface;
 use Symfony\Component\PropertyInfo\PropertyInfoExtractorInterface;
-use Symfony\Component\PropertyInfo\PropertyReadInfo;
-use Symfony\Component\PropertyInfo\PropertyReadInfoExtractorInterface;
-use Symfony\Component\PropertyInfo\PropertyWriteInfo;
-use Symfony\Component\PropertyInfo\PropertyWriteInfoExtractorInterface;
 use Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactoryInterface;
 
 /**

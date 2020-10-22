@@ -5,6 +5,7 @@ namespace Jane\AutoMapper\Tests;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Jane\AutoMapper\Extractor\FromSourceMappingExtractor;
 use Jane\AutoMapper\Extractor\FromTargetMappingExtractor;
+use Jane\AutoMapper\Extractor\PrivateReflectionExtractor;
 use Jane\AutoMapper\Extractor\PropertyMapping;
 use Jane\AutoMapper\Extractor\SourceTargetMappingExtractor;
 use Jane\AutoMapper\MapperGeneratorMetadataFactory;
@@ -18,7 +19,6 @@ use Jane\AutoMapper\Transformer\NullableTransformerFactory;
 use Jane\AutoMapper\Transformer\ObjectTransformerFactory;
 use Jane\AutoMapper\Transformer\UniqueTypeTransformerFactory;
 use Symfony\Component\PropertyInfo\Extractor\PhpDocExtractor;
-use Symfony\Component\PropertyInfo\Extractor\ReflectionExtractor;
 use Symfony\Component\PropertyInfo\PropertyInfoExtractor;
 use Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactory;
 use Symfony\Component\Serializer\Mapping\Loader\AnnotationLoader;
@@ -36,7 +36,7 @@ class MapperGeneratorMetadataFactoryTest extends AutoMapperBaseTest
         parent::setUp();
 
         $classMetadataFactory = new ClassMetadataFactory(new AnnotationLoader(new AnnotationReader()));
-        $reflectionExtractor = new ReflectionExtractor(null, null, null, true, ReflectionExtractor::ALLOW_PUBLIC | ReflectionExtractor::ALLOW_PROTECTED | ReflectionExtractor::ALLOW_PRIVATE);
+        $reflectionExtractor = new PrivateReflectionExtractor(null, null, null, true, PrivateReflectionExtractor::ALLOW_PUBLIC | PrivateReflectionExtractor::ALLOW_PROTECTED | PrivateReflectionExtractor::ALLOW_PRIVATE);
 
         $phpDocExtractor = new PhpDocExtractor();
         $propertyInfoExtractor = new PropertyInfoExtractor(

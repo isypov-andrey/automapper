@@ -6,6 +6,7 @@ use Doctrine\Common\Annotations\AnnotationReader;
 use Jane\AutoMapper\Exception\NoMappingFoundException;
 use Jane\AutoMapper\Extractor\FromSourceMappingExtractor;
 use Jane\AutoMapper\Extractor\FromTargetMappingExtractor;
+use Jane\AutoMapper\Extractor\PrivateReflectionExtractor;
 use Jane\AutoMapper\Extractor\SourceTargetMappingExtractor;
 use Jane\AutoMapper\Generator\Generator;
 use Jane\AutoMapper\Loader\ClassLoaderInterface;
@@ -21,7 +22,6 @@ use Jane\AutoMapper\Transformer\TransformerFactoryInterface;
 use Jane\AutoMapper\Transformer\UniqueTypeTransformerFactory;
 use PhpParser\ParserFactory;
 use Symfony\Component\PropertyInfo\Extractor\PhpDocExtractor;
-use Symfony\Component\PropertyInfo\Extractor\ReflectionExtractor;
 use Symfony\Component\PropertyInfo\PropertyInfoExtractor;
 use Symfony\Component\Serializer\Mapping\ClassDiscriminatorFromClassMetadata;
 use Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactory;
@@ -193,13 +193,13 @@ class AutoMapper implements AutoMapperInterface, AutoMapperRegistryInterface, Ma
             ));
         }
 
-        $flags = ReflectionExtractor::ALLOW_PUBLIC;
+        $flags = PrivateReflectionExtractor::ALLOW_PUBLIC;
 
         if ($private) {
-            $flags |= ReflectionExtractor::ALLOW_PROTECTED | ReflectionExtractor::ALLOW_PRIVATE;
+            $flags |= PrivateReflectionExtractor::ALLOW_PROTECTED | PrivateReflectionExtractor::ALLOW_PRIVATE;
         }
 
-        $reflectionExtractor = new ReflectionExtractor(
+        $reflectionExtractor = new PrivateReflectionExtractor(
             null,
             null,
             null,

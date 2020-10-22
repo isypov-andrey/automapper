@@ -11,25 +11,27 @@
         </service>
         <service id="Jane\AutoMapper\AutoMapperInterface" alias="Jane\AutoMapper\Bundle\AutoMapper" public="true" />
 
+        <service id="Jane\AutoMapper\Extractor\PrivateReflectionExtractor" />
+
         <service id="Jane\AutoMapper\Extractor\SourceTargetMappingExtractor">
             <argument type="service" id="property_info" />
-            <argument type="service" id="property_info.reflection_extractor" />
-            <argument type="service" id="property_info.reflection_extractor" />
+            <argument type="service" id="Jane\AutoMapper\Extractor\PrivateReflectionExtractor" />
+            <argument type="service" id="Jane\AutoMapper\Extractor\PrivateReflectionExtractor" />
             <argument type="service" id="Jane\AutoMapper\Transformer\TransformerFactoryInterface" />
         </service>
 
         <service id="Jane\AutoMapper\Extractor\FromTargetMappingExtractor">
             <argument type="service" id="property_info" />
-            <argument type="service" id="property_info.reflection_extractor" />
-            <argument type="service" id="property_info.reflection_extractor" />
+            <argument type="service" id="Jane\AutoMapper\Extractor\PrivateReflectionExtractor" />
+            <argument type="service" id="Jane\AutoMapper\Extractor\PrivateReflectionExtractor" />
             <argument type="service" id="Jane\AutoMapper\Transformer\TransformerFactoryInterface" />
             <argument type="service" id="serializer.mapping.class_metadata_factory" />
         </service>
 
         <service id="Jane\AutoMapper\Extractor\FromSourceMappingExtractor">
             <argument type="service" id="property_info" />
-            <argument type="service" id="property_info.reflection_extractor" />
-            <argument type="service" id="property_info.reflection_extractor" />
+            <argument type="service" id="Jane\AutoMapper\Extractor\PrivateReflectionExtractor" />
+            <argument type="service" id="Jane\AutoMapper\Extractor\PrivateReflectionExtractor" />
             <argument type="service" id="Jane\AutoMapper\Transformer\TransformerFactoryInterface" />
             <argument type="service" id="serializer.mapping.class_metadata_factory" />
         </service>

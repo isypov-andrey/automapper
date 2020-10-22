@@ -5,6 +5,7 @@ namespace Jane\AutoMapper\Tests\Extractor;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Jane\AutoMapper\Exception\InvalidMappingException;
 use Jane\AutoMapper\Extractor\FromSourceMappingExtractor;
+use Jane\AutoMapper\Extractor\PrivateReflectionExtractor;
 use Jane\AutoMapper\Extractor\PropertyMapping;
 use Jane\AutoMapper\MapperMetadata;
 use Jane\AutoMapper\Tests\AutoMapperBaseTest;
@@ -46,7 +47,7 @@ class FromSourceMappingExtractorTest extends AutoMapperBaseTest
             $flags |= ReflectionExtractor::ALLOW_PROTECTED | ReflectionExtractor::ALLOW_PRIVATE;
         }
 
-        $reflectionExtractor = new ReflectionExtractor(null, null, null, true, $flags);
+        $reflectionExtractor = new PrivateReflectionExtractor(null, null, null, true, $flags);
         $transformerFactory = new ChainTransformerFactory();
 
         $phpDocExtractor = new PhpDocExtractor();
