@@ -174,9 +174,8 @@ final class Generator
                 }
 
                 if ('array' === $mapperGeneratorMetadata->getSource()) {
-                    $conditions[] = new Expr\FuncCall(new Name('array_key_exists'), [
-                        new Arg(new Scalar\String_($propertyMapping->getProperty())),
-                        new Arg($sourceInput),
+                    $conditions[] = new Expr\FuncCall(new Name('isset'), [
+                        $propertyMapping->getReadAccessor()->getExpression($sourceInput)
                     ]);
                 }
             }
