@@ -12,6 +12,7 @@
 namespace Jane\AutoMapper\Extractor;
 
 
+use Symfony\Component\PropertyInfo\Type;
 use Symfony\Component\String\Inflector\EnglishInflector;
 
 /**
