@@ -58,10 +58,17 @@ final class FileLoader implements ClassLoaderInterface
         $className = $mapperGeneratorMetadata->getMapperClassName();
         $classPath = $this->directory . \DIRECTORY_SEPARATOR . $className . '.php';
         $hash = $mapperGeneratorMetadata->getHash();
-        $classCode = $this->printer->prettyPrint([$this->generator->generate($mapperGeneratorMetadata)]);
-
-        file_put_contents($classPath, "<?php\n\n" . $classCode . "\n");
-
+        $file = fopen($classPath, 'w+');
+        if (flock($file, LOCK_EX|LOCK_NB)) {
+            $classCode = $this->printer->prettyPrint([$this->generator->generate($mapperGeneratorMetadata)]);
+            flock($file, LOCK_EX);
+            fwrite($file, "<?php\n\n" . $classCode . "\n");
+            fflush($file);
+        } else {
+            //Ожидание получения записи другим потоком
+            flock($file, LOCK_EX);
+        }
+        fclose($file);
         $this->addHashToRegistry($className, $hash);
     }
 
