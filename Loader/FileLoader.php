@@ -64,7 +64,6 @@ final class FileLoader implements ClassLoaderInterface
             flock($file, LOCK_EX);
             fwrite($file, "<?php\n\n" . $classCode . "\n");
             fflush($file);
-            usleep(50 * 1000);
         } else {
             //Ожидание получения записи другим потоком
             flock($file, LOCK_EX);
