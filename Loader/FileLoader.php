@@ -64,7 +64,7 @@ final class FileLoader implements ClassLoaderInterface
             $classCode = $this->printer->prettyPrint([$this->generator->generate($mapperGeneratorMetadata)]);
             flock($file, LOCK_EX);
             fwrite($file, "<?php\n\n" . $classCode . "\n");
-            fflush($file);
+            fsync($file);
         } else {
             //Ожидание получения записи другим потоком
             flock($file, LOCK_EX);
