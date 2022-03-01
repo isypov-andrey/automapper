@@ -65,6 +65,7 @@ final class FileLoader implements ClassLoaderInterface
             flock($file, LOCK_EX);
             fwrite($file, "<?php\n\n" . $classCode . "\n");
             fsync($file);
+            opcache_invalidate($classPath);
         } else {
             //Ожидание получения записи другим потоком
             flock($file, LOCK_EX);
@@ -78,6 +79,7 @@ final class FileLoader implements ClassLoaderInterface
         $registryPath = $this->directory . \DIRECTORY_SEPARATOR . 'registry.php';
         $this->registry[$className] = $hash;
         file_put_contents($registryPath, "<?php\n\nreturn " . var_export($this->registry, true) . ";\n");
+        opcache_invalidate($registryPath);
     }
 
     private function getRegistry()
