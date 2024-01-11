@@ -58,28 +58,45 @@ final class FileLoader implements ClassLoaderInterface
         $className = $mapperGeneratorMetadata->getMapperClassName();
         $classPath = $this->directory . \DIRECTORY_SEPARATOR . $className . '.php';
         $hash = $mapperGeneratorMetadata->getHash();
-        $file = fopen($classPath, 'c+');
-        if (flock($file, LOCK_EX|LOCK_NB)) {
-            ftruncate($file, 0);
-            $classCode = $this->printer->prettyPrint([$this->generator->generate($mapperGeneratorMetadata)]);
-            flock($file, LOCK_EX);
-            fwrite($file, "<?php\n\n" . $classCode . "\n");
-            fsync($file);
-            opcache_invalidate($classPath);
-        } else {
-            //Ожидание получения записи другим потоком
-            flock($file, LOCK_EX);
-        }
-        fclose($file);
+        $classCode = $this->printer->prettyPrint([$this->generator->generate($mapperGeneratorMetadata)]);
+        $this->writeFileWithLock($classPath, "<?php\n\n" . $classCode . "\n");
         $this->addHashToRegistry($className, $hash);
     }
 
     private function addHashToRegistry($className, $hash): void
     {
         $registryPath = $this->directory . \DIRECTORY_SEPARATOR . 'registry.php';
-        $this->registry[$className] = $hash;
-        file_put_contents($registryPath, "<?php\n\nreturn " . var_export($this->registry, true) . ";\n");
-        opcache_invalidate($registryPath);
+        do {
+            $this->registry[$className] = $hash;
+            $success = $this->writeFileWithLock(
+                $registryPath,
+                "<?php\n\nreturn " . var_export($this->registry, true) . ";\n"
+            );
+            if (!$success) {
+                $this->registry = require $registryPath;
+                if ($this->registry[$className] === $hash) {
+                    break;
+                }
+            }
+        } while (!$success);
+    }
+
+    private function writeFileWithLock($path, $content): bool
+    {
+        $file = fopen($path, 'c+');
+        if (flock($file, LOCK_EX|LOCK_NB)) {
+            ftruncate($file, 0);
+            flock($file, LOCK_EX);
+            fwrite($file, $content);
+            fsync($file);
+            opcache_invalidate($path);
+            return true;
+        } else {
+            //Ожидание получения записи другим потоком
+            flock($file, LOCK_EX);
+            return false;
+        }
+        fclose($file);
     }
 
     private function getRegistry()
