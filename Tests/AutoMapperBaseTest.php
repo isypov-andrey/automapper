@@ -30,7 +30,7 @@ abstract class AutoMapperBaseTest extends TestCase
         $classMetadataFactory = new ClassMetadataFactory(new AnnotationLoader(new AnnotationReader()));
 
         $this->loader = new FileLoader(new Generator(
-            (new ParserFactory())->create(ParserFactory::PREFER_PHP7),
+            (new ParserFactory())->createForNewestSupportedVersion(),
             new ClassDiscriminatorFromClassMetadata($classMetadataFactory)
         ), __DIR__ . '/cache');
 

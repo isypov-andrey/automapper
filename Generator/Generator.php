@@ -9,6 +9,7 @@ use Jane\AutoMapper\MapperContext;
 use Jane\AutoMapper\MapperGeneratorMetadataInterface;
 use PhpParser\Node\Arg;
 use PhpParser\Node\Expr;
+use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
 use PhpParser\Node\Param;
 use PhpParser\Node\Scalar;
@@ -262,7 +263,7 @@ final class Generator
             'flags' => Stmt\Class_::MODIFIER_PUBLIC,
             'params' => [
                 new Param(new Expr\Variable($sourceInput->name)),
-                new Param(new Expr\Variable('context'), new Expr\Array_(), 'array'),
+                new Param(new Expr\Variable('context'), new Expr\Array_(), new Identifier('array')),
             ],
             'byRef' => true,
             'stmts' => $statements,
@@ -281,12 +282,12 @@ final class Generator
                 'params' => [
                     new Param(new Expr\Variable('autoMapperRegistry'), null, new Name\FullyQualified(AutoMapperRegistryInterface::class)),
                 ],
-                'returnType' => 'void',
+                'returnType' => new Identifier('void'),
                 'stmts' => $injectMapperStatements,
             ]);
         }
 
-        return new Stmt\Class_(new Name($mapperGeneratorMetadata->getMapperClassName()), [
+        return new Stmt\Class_(new Identifier($mapperGeneratorMetadata->getMapperClassName()), [
             'flags' => Stmt\Class_::MODIFIER_FINAL,
             'extends' => new Name\FullyQualified(GeneratedMapper::class),
             'stmts' => $classStmts,

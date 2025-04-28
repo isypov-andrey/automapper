@@ -188,7 +188,7 @@ class AutoMapper implements AutoMapperInterface, AutoMapperRegistryInterface, Ma
 
         if (null === $loader) {
             $loader = new EvalLoader(new Generator(
-                (new ParserFactory())->create(ParserFactory::PREFER_PHP7),
+                (new ParserFactory())->createForNewestSupportedVersion(),
                 new ClassDiscriminatorFromClassMetadata($classMetadataFactory)
             ));
         }
