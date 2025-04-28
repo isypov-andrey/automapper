@@ -113,8 +113,8 @@ final class FromSourceMappingExtractor extends MappingExtractor
             $type->isNullable(),
             $className,
             $type->isCollection(),
-            $this->transformType($target, $type->getCollectionKeyType()),
-            $this->transformType($target, $type->getCollectionValueType())
+            $this->transformType($target, $type->getCollectionKeyTypes()[0] ?? null),
+            $this->transformType($target, $type->getCollectionValueTypes()[0] ?? null)
         );
     }
 

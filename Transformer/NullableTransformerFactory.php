@@ -49,8 +49,8 @@ final class NullableTransformerFactory implements TransformerFactoryInterface
             false,
             $propertyType->getClassName(),
             $propertyType->isCollection(),
-            $propertyType->getCollectionKeyType(),
-            $propertyType->getCollectionValueType()
+            $propertyType->getCollectionKeyTypes()[0] ?? null,
+            $propertyType->getCollectionValueTypes()[0] ?? null
         )], $targetTypes, $mapperMetadata);
 
         if (null === $subTransformer) {
